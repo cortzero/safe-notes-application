@@ -1,0 +1,41 @@
+.nav-bar {
+  display: flex;
+  justify-content: space-between;
+  background-color: white;
+  height: 4em;
+  padding: 0 10px;
+}
+
+.left-side {
+  flex: 4;
+  display: flex;
+  align-items: center;
+}
+
+.site-title {
+  padding: 5px 15px;
+  color: black;
+  font-family: sans-serif;
+  font-size: 30px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.right-side {
+  flex: 1;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+}
+
+.profile-img-div {
+  padding: 5px 15px;
+  cursor: pointer;
+}
+
+.profile-img {
+  width: 40px;
+  border: 1px solid black;
+  border-radius: 50%;
+  object-fit: contain;
+}
