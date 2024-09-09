@@ -1,0 +1,15 @@
+.category-label {
+  height: fit-content;
+  width: fit-content;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 20px;
+  background-color: #9B7BE4;
+}
+
+.category {
+  color: white;
+  font-weight: bold;
+  font-size: 12px;
+  margin: 0;
+}

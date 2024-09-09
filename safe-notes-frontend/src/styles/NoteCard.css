@@ -1,0 +1,72 @@
+.card {
+  border: none;
+  border-radius: 10px;
+  width: 358px;
+  height: 244px;
+  background-color: white;
+  margin: 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+}
+
+.card-title-div {
+  display: flex;
+  align-items: end;
+}
+
+.title {
+  flex: 4;
+  margin: 0;
+  text-align: left;
+  font-weight: bold;
+}
+
+.note-state-label {
+  flex: 1;
+  margin: 0;
+  text-align: right;
+  color: green;
+  font-weight: bold;
+}
+
+.note-date {
+  color: #646464;
+  margin: 0;
+}
+
+.note-text {
+  margin: 0;
+  /* overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis; */
+}
+
+.footer-card-div {
+  display: flex;
+}
+
+.note-categories-div {
+  flex: 5;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px 5px;
+}
+
+.delete-button-div {
+  flex: 1;
+  display: flex;
+  justify-content: right;
+  align-items: end;
+}
+
+.delete-button {
+  border: none;
+  border-radius: 10px;
+  padding: 8px 10px;
+  background-color: #FF8181;
+  color: white;
+  cursor: pointer;
+}
