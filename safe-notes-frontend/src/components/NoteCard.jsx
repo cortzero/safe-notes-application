@@ -7,7 +7,7 @@ export default function NoteCard() {
     title: 'Go for lunch',
     status: 'Active',
     date: 'April 01 2005',
-    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam iaculis  enim quis nisi viverra vestibulum. Duis venenatis vehicula aliquam. Phasellus.',
+    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum lacinia justo at mi malesuada, a tempus massa viverra. Ut egestas suscipit euismod. Praesent viverra varius sodales. Suspendisse dictum orci diam, sed consequat tortor hendrerit a. Sed sodales sapien sit amet lectus porta aliquet. Maecenas euismod mauris ut enim sagittis consequat.',
     categories: [
       <CategoryLabel key='1' category='Category 1' />,
       <CategoryLabel key='2' category='Category 2' />,
@@ -29,7 +29,7 @@ export default function NoteCard() {
       </div>
       <div className='note-text-div'>
         <p className='note-text'>
-          {note.text}
+          {note.text.substring(0, 181)}{note.text.length > 182 && '...'}
         </p>
       </div>
       <div className='footer-card-div'>
