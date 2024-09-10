@@ -1,0 +1,57 @@
+[
+  {
+    "id": 1,
+    "title": "Grocery Shopping",
+    "status": "Active",
+    "date": "2024-09-10",
+    "text": "Buy groceries for the week: milk, eggs, and bread.",
+    "categories": [
+      "meal",
+      "urgent"
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Math Homework",
+    "status": "Archived",
+    "date": "2024-09-01",
+    "text": "Complete math problems from page 45 to 50.",
+    "categories": [
+      "school",
+      "work"
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Project Meeting",
+    "status": "Active",
+    "date": "2024-09-05",
+    "text": "Discuss the upcoming project deadlines and task distribution.",
+    "categories": [
+      "work",
+      "urgent"
+    ]
+  },
+  {
+    "id": 4,
+    "title": "Dinner with Friends",
+    "status": "Archived",
+    "date": "2024-08-28",
+    "text": "Have dinner at Joe's Pizza at 7 PM.",
+    "categories": [
+      "meal",
+      "social"
+    ]
+  },
+  {
+    "id": 5,
+    "title": "Doctor's Appointment",
+    "status": "Active",
+    "date": "2024-09-12",
+    "text": "Annual check-up at the clinic, 10 AM.",
+    "categories": [
+      "health",
+      "urgent"
+    ]
+  }
+]
