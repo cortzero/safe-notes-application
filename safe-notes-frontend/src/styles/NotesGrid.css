@@ -2,7 +2,5 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   justify-items: center;
-  row-gap: 0px;
-  margin: 50px;
   width: fit-content;
 }
