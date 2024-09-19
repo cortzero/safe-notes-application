@@ -1,4 +1,4 @@
-package com.cortzero.safenotes.model;
+package com.cortzero.safenotes.entities;
 
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -14,10 +14,13 @@ import java.util.Set;
 @Builder
 @Data
 @NoArgsConstructor
+@Table(name = "notes")
 public class Note {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "note_generator")
+    @SequenceGenerator(name = "note_generator", sequenceName = "note_seq")
+    @Column(name = "note_id")
     private Long id;
 
     @Column(nullable = false)
@@ -27,13 +30,13 @@ public class Note {
     @Column(nullable = false)
     private NoteStatus status;
 
-    @Column(nullable = false)
+    @Column(name = "note_date", nullable = false)
     private LocalDate date;
 
     @Column(length = 500)
     private String text;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "note_categories",
         joinColumns = @JoinColumn(name = "note_id"),
