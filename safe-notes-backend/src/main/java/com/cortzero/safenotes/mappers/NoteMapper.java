@@ -4,14 +4,16 @@ import com.cortzero.safenotes.dtos.NoteDTO;
 import com.cortzero.safenotes.entities.Category;
 import com.cortzero.safenotes.entities.Note;
 import com.cortzero.safenotes.entities.NoteStatus;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.stream.Collectors;
 
+@Service
 public class NoteMapper {
 
-    public static Note getEntity(NoteDTO dto) {
+    public Note getEntity(NoteDTO dto) {
         return Note.builder()
                 .id(dto.getId())
                 .title(dto.getTitle())
@@ -21,7 +23,9 @@ public class NoteMapper {
                 .build();
     }
 
-    public static NoteDTO getDTO(Note note) {
+    public NoteDTO getDTO(Note note) {
+        if (note == null)
+            throw new IllegalArgumentException("The Note should not be null");
         return NoteDTO.builder()
                 .id(note.getId())
                 .title(note.getTitle())

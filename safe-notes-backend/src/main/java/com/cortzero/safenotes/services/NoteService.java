@@ -11,9 +11,11 @@ import java.util.List;
 public class NoteService implements INoteService {
 
     private final NoteRepository noteRepository;
+    private final NoteMapper noteMapper;
 
-    public NoteService(NoteRepository noteRepository) {
+    public NoteService(NoteRepository noteRepository, NoteMapper noteMapper) {
         this.noteRepository = noteRepository;
+        this.noteMapper = noteMapper;
     }
 
     @Override
@@ -39,7 +41,7 @@ public class NoteService implements INoteService {
     @Override
     public List<NoteDTO> getAllNotes() {
         return noteRepository.findAll().stream()
-                .map(NoteMapper::getDTO)
+                .map(noteMapper::getDTO)
                 .toList();
     }
 }

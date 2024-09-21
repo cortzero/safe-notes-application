@@ -18,7 +18,7 @@ import java.util.Set;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
-public class NoteRepositoryTests {
+public class NoteRepositoryTest {
 
     @Autowired
     private NoteRepository noteRepository;
@@ -27,7 +27,7 @@ public class NoteRepositoryTests {
 
     @Test
     public void NoteRepository_Save_ReturnSavedNote() {
-        // Arrange
+        // Given
         final String NOTE_TITLE = "Do the homework!";
         final String NOTE_CREATION_DATE = "2008-04-12";
         final Category category1 = Category.builder().name("school").build();
@@ -41,10 +41,10 @@ public class NoteRepositoryTests {
 
         categoryRepository.save(category1);
 
-        // Act
+        // When
         Note savedNote = noteRepository.save(note);
 
-        // Assert
+        // Then
         assertThat(savedNote).isNotNull();
         assertThat(savedNote.getId()).isGreaterThan(0);
         assertThat(savedNote.getTitle()).isEqualTo(NOTE_TITLE);
@@ -54,6 +54,7 @@ public class NoteRepositoryTests {
 
     @Test
     public void NoteRepository_FindAll_ReturnMoreThanOneNote() {
+        // Given
         final String NOTE_CREATION_DATE = "2008-04-12";
         final Category category1 = Category.builder().name("school").build();
         Note note1 = Note.builder()
@@ -75,8 +76,10 @@ public class NoteRepositoryTests {
         noteRepository.save(note1);
         noteRepository.save(note2);
 
+        // When
         List<Note> noteList = noteRepository.findAll();
 
+        // Then
         assertThat(noteList).isNotNull();
         assertThat(noteList.size()).isEqualTo(2);
         assertThat(noteList).contains(note1, note2);
@@ -84,6 +87,7 @@ public class NoteRepositoryTests {
 
     @Test
     public void NoteRepository_FindById_ReturnOneNote() {
+        // Given
         final String NOTE_TITLE = "Do the homework!";
         final String NOTE_CREATION_DATE = "2008-04-12";
         final Category category1 = Category.builder().name("school").build();
@@ -98,8 +102,10 @@ public class NoteRepositoryTests {
         categoryRepository.save(category1);
         noteRepository.save(note);
 
+        // When
         Optional<Note> optionalNote = noteRepository.findById(note.getId());
 
+        // Then
         assertThat(optionalNote).isPresent();
         assertThat(optionalNote.get().getTitle()).isEqualTo(NOTE_TITLE);
         assertThat(optionalNote.get().getDate().toString()).isEqualTo(NOTE_CREATION_DATE);
