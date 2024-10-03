@@ -1,12 +1,12 @@
 import React from 'react';
 import NotesGrid from './NotesGrid';
 import '../styles/MainComponent.css';
-import CategoriesHorizontalList from './CategoriesHorizontalList';
+import AddNoteComponent from './AddNoteComponent';
 
 export default function MainComponent() {
   return (
     <main className='main-component'>
-      <CategoriesHorizontalList />
+      <AddNoteComponent />
       <NotesGrid />
     </main>
   )

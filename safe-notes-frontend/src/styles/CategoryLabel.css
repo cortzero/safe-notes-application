@@ -5,6 +5,12 @@
   border: none;
   border-radius: 20px;
   background-color: #9B7BE4;
+  cursor: pointer;
+  user-select: none;
+}
+
+.category-label.selected {
+  background-color: #663fc1;
 }
 
 .category {

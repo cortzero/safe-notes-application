@@ -1,25 +1,29 @@
 import React, { useEffect, useRef, useState } from 'react'
 import CategoryLabel from './CategoryLabel';
-import '../styles/CategoriesHorizontalList.css';
 import { getAllCategories } from '../services/CategoryService';
+import '../styles/CategoriesHorizontalList.css';
 
-export default function CategoriesHorizontalList() {
+import json from '../data/categories.json';
+
+export default function CategoriesHorizontalList({ returnSelectedCategories }) {
   const [categories, setCategories] = useState([]);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+  const selectedCategories = useRef([]);
   const categoriesContainerRef = useRef(null);
 
   useEffect(() => {
     getAllCategories()
       .then(response => setCategories(response.data))
       .catch(err => console.log(err));
+    //setCategories(json);
   }, []);
 
   useEffect(() => {
     const categoriesContainer = categoriesContainerRef.current;
     if (categoriesContainer) {
       categoriesContainer.addEventListener('scroll', updateArrows);
-      updateArrows(); // Inital call when the component is first rendered to determine which arrows to show
+      updateArrows();
       return () => categoriesContainer.removeEventListener('scroll', updateArrows);
     }
   }, []);
@@ -27,10 +31,7 @@ export default function CategoriesHorizontalList() {
   const scroll = (direction) => {
     const scrollAmount = 200; // Number of pixels to scroll
     if (categoriesContainerRef.current) {
-      categoriesContainerRef.current.scrollBy({
-        left: direction === 'left' ? -scrollAmount : scrollAmount,
-        behavior: 'smooth',
-      });
+      categoriesContainerRef.current.scrollLeft += direction === 'left' ? -scrollAmount : scrollAmount;
     }
   };
 
@@ -42,25 +43,46 @@ export default function CategoriesHorizontalList() {
     }
   };
 
+  const updateSelectedCategoriesList = (newCategory, operation) => {
+    if (operation === 'append') {
+      selectedCategories.current.push(newCategory);
+    }
+    else if (operation === 'remove') {
+      selectedCategories.current = selectedCategories.current.filter(category => category != newCategory);
+    }
+    console.log(selectedCategories.current);
+    returnSelectedCategories(selectedCategories.current);
+  };
+
   const categoryComponents = categories.map(
-    category => <CategoryLabel key={category.name} category={category.name} />
+    category => <CategoryLabel 
+                  key={category.name} 
+                  category={category.name} 
+                  isSelected={false} 
+                  appendCategory={newCategory => updateSelectedCategoriesList(newCategory, 'append')}
+                  removeCategory={newCategory => updateSelectedCategoriesList(newCategory, 'remove')}
+                />
   );
 
   return (
     <div className='category-slider'>
-      <button 
-        className={`arrow left ${canScrollLeft ? '' : 'disabled'}`} 
-        onClick={() => scroll('left')} 
-        disabled={!canScrollLeft}
-      >&#9664;</button>
-      <div className='categories-container' ref={categoriesContainerRef}>
-        {categoryComponents}
+      <div className={`button-container ${canScrollLeft ? '' : 'disabled'}`}>
+        <button 
+          type='button'
+          onClick={() => scroll('left')}
+        >&#9664;</button>
       </div>
-      <button 
-        className={`arrow right ${canScrollRight ? '' : 'disabled'}`}
-        onClick={() => scroll('right')} 
-        disabled={!canScrollRight}
-      >&#9654;</button>
+      <ul id='categories-list' className='categories-container'
+        ref={categoriesContainerRef}
+      >
+        {categoryComponents}
+      </ul>
+      <div className={`button-container ${canScrollRight ? '' : 'disabled'}`}>
+        <button 
+          type='button'
+          onClick={() => scroll('right')}
+        >&#9654;</button>
+      </div>
     </div>
   )
 }
