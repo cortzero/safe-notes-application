@@ -12,8 +12,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -55,6 +56,48 @@ public class CategoryServiceTest {
 
         verify(categoryRepository, times(1)).findAll();
         verify(categoryMapper, times(categoryList.size())).getDTO(any(Category.class));
+    }
+
+    @Test
+    public void CategoryService_GetCategoryByName_ReturnsCategoryDto() {
+        // Given
+        Category category1 = Category.builder().id(1L).name("school").build();
+
+        CategoryDTO categoryDTO1 = CategoryDTO.builder().name("school").build();
+
+        when(categoryRepository.findByName("school")).thenReturn(Optional.of(category1));
+        when(categoryMapper.getDTO(category1)).thenReturn(categoryDTO1);
+
+        // When
+        CategoryDTO returnedCategoryDto = categoryService.getCategoryByName("school");
+
+        // Then
+        assertThat(returnedCategoryDto).isNotNull();
+        assertThat(returnedCategoryDto.getName()).isEqualTo("school");
+    }
+
+    @Test
+    public void CategoryService_GetCategoryByName_ThrowsIllegalArgumentException_WhenCategoryNameIsNull() {
+        assertThatIllegalArgumentException().isThrownBy(() -> categoryService.getCategoryByName(null))
+                .withMessage("Category name must not be null or empty");
+    }
+
+    @Test
+    public void CategoryService_GetCategoryByName_ThrowsIllegalArgumentException_WhenCategoryNameIsEmpty() {
+        assertThatIllegalArgumentException().isThrownBy(() -> categoryService.getCategoryByName(""))
+                .withMessage("Category name must not be null or empty");
+    }
+
+    @Test
+    public void CategoryService_GetCategoryByName_ThrowsIllegalArgumentException_WhenCategoryNameIsBlank() {
+        assertThatIllegalArgumentException().isThrownBy(() -> categoryService.getCategoryByName("  \n"))
+                .withMessage("Category name must not be null or empty");
+    }
+
+    @Test
+    public void CategoryService_GetCategoryByName_ThrowsCategoryNotFoundException_WhenCategoryDoesNotExist() {
+        assertThatRuntimeException().isThrownBy(() -> categoryService.getCategoryByName("no category"))
+                .withMessage("The category no category does not exist.");
     }
 
 }

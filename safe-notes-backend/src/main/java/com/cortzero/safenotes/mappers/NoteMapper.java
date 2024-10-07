@@ -14,8 +14,9 @@ import java.util.stream.Collectors;
 public class NoteMapper {
 
     public Note getEntity(NoteDTO dto) {
+        if (dto == null)
+            throw new IllegalArgumentException("The dto must not be null");
         return Note.builder()
-                .id(dto.getId())
                 .title(dto.getTitle())
                 .status(NoteStatus.of(dto.getStatus()))
                 .date(LocalDate.parse(dto.getDate(), DateTimeFormatter.ISO_LOCAL_DATE))

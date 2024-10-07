@@ -23,6 +23,33 @@ class NoteMapperTest {
     }
 
     @Test
+    public void NoteMapper_GetEntity_ReturnsNoteEntity() {
+        // Given
+        NoteDTO noteDTO = NoteDTO.builder()
+                .title("Do the homework!")
+                .status(NoteStatus.ACTIVE.getName())
+                .date("2008-04-12")
+                .text("Remember to do the math homework before April 16th")
+                .build();
+
+        // When
+        Note note = noteMapper.getEntity(noteDTO);
+
+        // Then
+        assertThat(note).isNotNull();
+        assertThat(note.getTitle()).isEqualTo(noteDTO.getTitle());
+        assertThat(note.getStatus().getName()).isEqualTo(noteDTO.getStatus());
+        assertThat(note.getDate()).isEqualTo(noteDTO.getDate());
+        assertThat(note.getText()).isEqualTo(noteDTO.getText());
+    }
+
+    @Test
+    public void NoteMapper_GetEntity_ThrowsIllegalArgumentException_WhenDtoIsNull() {
+        assertThatIllegalArgumentException().isThrownBy(() -> noteMapper.getEntity(null))
+                .withMessage("The dto must not be null");
+    }
+
+    @Test
     public void NoteMapper_GetDto_ReturnsNoteDtoFromNote() {
         // Given
         final Category category1 = Category.builder().name("school").build();

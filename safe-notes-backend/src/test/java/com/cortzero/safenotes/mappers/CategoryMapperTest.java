@@ -18,6 +18,25 @@ public class CategoryMapperTest {
     }
 
     @Test
+    public void CategoryMapper_getEntity_ReturnsCategoryEntity() {
+        // Given
+        CategoryDTO categoryDTO = CategoryDTO.builder().id(1L).name("school").build();
+
+        // When
+        Category category = categoryMapper.getEntity(categoryDTO);
+
+        // Then
+        assertThat(category).isNotNull();
+        assertThat(category.getName()).isEqualTo(categoryDTO.getName());
+    }
+
+    @Test
+    public void CategoryMapper_getEntity_ThrowsIllegalArgumentException_WhenDtoIsNull() {
+        assertThatIllegalArgumentException().isThrownBy(() -> categoryMapper.getEntity(null))
+                .withMessage("The dto must not be null");
+    }
+
+    @Test
     public void CategoryMapper_getDTO_ReturnsCategoryDto() {
         // Given
         Category category = Category.builder().id(1L).name("school").build();

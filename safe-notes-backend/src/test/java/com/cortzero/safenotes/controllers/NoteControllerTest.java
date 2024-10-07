@@ -2,6 +2,7 @@ package com.cortzero.safenotes.controllers;
 
 import com.cortzero.safenotes.dtos.NoteDTO;
 import com.cortzero.safenotes.services.NoteService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -42,7 +44,7 @@ class NoteControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
-    public void NoteController_GetAllNotes_Returns200() throws Exception {
+    public void NoteController_GetAllNotes_Returns200HttpCode() throws Exception {
         // Given
         final NoteDTO noteDTO1 = NoteDTO.builder()
                 .id(1L)
@@ -98,6 +100,31 @@ class NoteControllerTest {
         );
 
         verify(noteService, times(1)).getAllNotes();
+    }
+
+    @Test
+    public void NoteController_CreateNote_Returns201HttpCode() throws Exception {
+        // Given
+        final NoteDTO noteDTO = NoteDTO.builder()
+                .id(1L)
+                .title("Do the homework!")
+                .status("Active")
+                .date("2008-04-12")
+                .text("Remember to do the math homework before April 16th")
+                .categories(Set.of("school"))
+                .build();
+
+        given(noteService.createNote(noteDTO)).willReturn(1L);
+
+        // When
+        ResultActions response = mockMvc.perform(post("/api/notes")
+                .content(objectMapper.writeValueAsString(noteDTO))
+                .contentType(MediaType.APPLICATION_JSON));
+
+        // Then
+        response.andExpect(status().isCreated());
+        assertThat(response.andReturn().getResponse().getContentAsString())
+                .isEqualTo("Note created successfully.");
     }
 
 }
