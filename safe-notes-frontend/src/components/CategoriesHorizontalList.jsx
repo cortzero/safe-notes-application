@@ -3,8 +3,6 @@ import CategoryLabel from './CategoryLabel';
 import { getAllCategories } from '../services/CategoryService';
 import '../styles/CategoriesHorizontalList.css';
 
-import json from '../data/categories.json';
-
 export default function CategoriesHorizontalList({ returnSelectedCategories }) {
   const [categories, setCategories] = useState([]);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -16,7 +14,6 @@ export default function CategoriesHorizontalList({ returnSelectedCategories }) {
     getAllCategories()
       .then(response => setCategories(response.data))
       .catch(err => console.log(err));
-    //setCategories(json);
   }, []);
 
   useEffect(() => {
@@ -27,6 +24,31 @@ export default function CategoriesHorizontalList({ returnSelectedCategories }) {
       return () => categoriesContainer.removeEventListener('scroll', updateArrows);
     }
   }, []);
+  
+  const updateSelectedCategoriesList = (newCategory, operation) => {
+    if (operation === 'append') {
+      selectedCategories.current.push(newCategory);
+    }
+    else if (operation === 'remove') {
+      selectedCategories.current = selectedCategories.current.filter(category => category != newCategory);
+    }
+    console.log(selectedCategories.current);
+    returnSelectedCategories(selectedCategories.current);
+  };
+
+  const createCategoryComponents = () => {
+    return categories.map(
+      category => <CategoryLabel 
+                    key={category.name} 
+                    category={category.name} 
+                    isSelected={false} 
+                    appendCategory={newCategory => updateSelectedCategoriesList(newCategory, 'append')}
+                    removeCategory={newCategory => updateSelectedCategoriesList(newCategory, 'remove')}
+                  />
+    );
+  };
+
+  let categoryComponents = createCategoryComponents();
 
   const scroll = (direction) => {
     const scrollAmount = 200; // Number of pixels to scroll
@@ -43,26 +65,11 @@ export default function CategoriesHorizontalList({ returnSelectedCategories }) {
     }
   };
 
-  const updateSelectedCategoriesList = (newCategory, operation) => {
-    if (operation === 'append') {
-      selectedCategories.current.push(newCategory);
-    }
-    else if (operation === 'remove') {
-      selectedCategories.current = selectedCategories.current.filter(category => category != newCategory);
-    }
-    console.log(selectedCategories.current);
+  const clearSelectedCategoriesList = () => {
+    selectedCategories.current = [];
+    categoryComponents = createCategoryComponents();
     returnSelectedCategories(selectedCategories.current);
   };
-
-  const categoryComponents = categories.map(
-    category => <CategoryLabel 
-                  key={category.name} 
-                  category={category.name} 
-                  isSelected={false} 
-                  appendCategory={newCategory => updateSelectedCategoriesList(newCategory, 'append')}
-                  removeCategory={newCategory => updateSelectedCategoriesList(newCategory, 'remove')}
-                />
-  );
 
   return (
     <div className='category-slider'>
