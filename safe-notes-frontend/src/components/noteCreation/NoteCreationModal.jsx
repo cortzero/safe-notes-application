@@ -1,10 +1,12 @@
 import React, { useRef, useState } from 'react';
-import '../../styles/NoteCreationModal.css';
 import CategoriesHorizontalList from '../CategoriesHorizontalList';
 import Button from '../Button';
 import { saveNote } from '../../services/NoteService';
+import '../../styles/NoteCreationModal.css';
 
-export default function NoteCreationModal(props) {
+export default function NoteCreationModal({ displayModal, onClickCloseModal, onSaveNote }) {
+  if (!displayModal) return null;
+
   const [noteTitle, setNoteTitle] = useState('');
   const [noteText, setNoteText] = useState('');
   const [noteCategories, setNoteCategories] = useState([]);
@@ -33,6 +35,7 @@ export default function NoteCreationModal(props) {
       console.log('HTTP Status code: ' + response.status);
       console.log(response.data);
       closeModal();
+      onSaveNote();
     }).catch(err => console.log(err));
   }
 
@@ -42,17 +45,11 @@ export default function NoteCreationModal(props) {
   }
 
   const closeModal = () => {
-    props.onClickCloseModal();
-    cleanAllInputFields();
+    onClickCloseModal();
   }
 
-  const cleanAllInputFields = () => {
-    titleInputRef.current.value = '';
-    textInputRef.current.value = '';
-  };
-
   return (
-    <div style={{display: `${props.displayModal ? 'block' : 'none'}`}}>
+    <div>
       <div className='modal-background' onClick={closeModal}>
       </div>
       <form className='modal-form'>

@@ -32,7 +32,6 @@ export default function CategoriesHorizontalList({ returnSelectedCategories }) {
     else if (operation === 'remove') {
       selectedCategories.current = selectedCategories.current.filter(category => category != newCategory);
     }
-    console.log(selectedCategories.current);
     returnSelectedCategories(selectedCategories.current);
   };
 
@@ -63,12 +62,6 @@ export default function CategoriesHorizontalList({ returnSelectedCategories }) {
       setCanScrollLeft(scrollLeft > 0);
       setCanScrollRight(scrollLeft < scrollWidth - clientWidth);
     }
-  };
-
-  const clearSelectedCategoriesList = () => {
-    selectedCategories.current = [];
-    categoryComponents = createCategoryComponents();
-    returnSelectedCategories(selectedCategories.current);
   };
 
   return (

@@ -1,15 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import NoteCard from './NoteCard';
-import { getAllNotes } from '../services/NoteService';
 import '../styles/NotesGrid.css';
 
-export default function NotesGrid() {
-  const [notes, setNotes] = useState([]);
-
+export default function NotesGrid({ notes, fetchNotes }) {
   useEffect(() => {
-    getAllNotes()
-      .then(response => setNotes(response.data))
-      .catch(error => console.log(error));
+    fetchNotes();
   }, []);
 
   const noteCardElements = notes.map(
