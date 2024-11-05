@@ -59,9 +59,9 @@ export default function NoteCreationModal({ displayModal, onClickCloseModal, onS
           <input className='text-input' id='note-title' name='title' onChange={e => handleOnChangeTitleInput(e)} ref={titleInputRef}></input>
         </div>
         {/* Text input */}
-        <div className='form-row'>
+        <div id='text-area' className='form-row'>
           <label className='label-text' htmlFor='note-text'>Text</label>
-          <textarea className='text-area' id='note-text' name='text' rows={10} onChange={e => handleOnChangeTextInput(e)} ref={textInputRef}></textarea>
+          <textarea className='text-area' id='note-text' name='text' rows={14} onChange={e => handleOnChangeTextInput(e)} ref={textInputRef}></textarea>
         </div>
         {/* Categories selection */}
         <div className='form-row'>
