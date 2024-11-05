@@ -33,7 +33,7 @@ public class Note {
     @Column(name = "note_date", nullable = false)
     private LocalDate date;
 
-    @Column(length = 500)
+    @Column(length = 1000)
     private String text;
 
     @ManyToMany(fetch = FetchType.EAGER)
